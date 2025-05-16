@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed; 
-    public float jumpForce; 
     private Rigidbody2D body;
     private Animator anim;
+    private PlayerAttack playerAttack;
+
+    public float moveSpeed; 
+    public float jumpForce; 
     private bool grounded;
+
+    public int facingDirection { get; private set; } = 1; 
 
     private bool canRoll = true;
     public bool isRolling;
     public float rollForce;
     public float rollingCooldown;
-    private PlayerAttack playerAttack;
+
 
     private void Awake()
     {
@@ -26,8 +30,6 @@ public class PlayerMovement : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         playerAttack = GetComponent<PlayerAttack>();
-
-        //Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
 
     }
 
@@ -49,17 +51,29 @@ public class PlayerMovement : MonoBehaviour
             body.velocity = new Vector2(horizontalInput * moveSpeed, body.velocity.y);
         }
 
-
-        if (horizontalInput > 0.01f)
-            transform.localScale = Vector3.one;
-        else if (horizontalInput < -0.01f)
-            transform.localScale = new Vector3(-1, 1, 1);
+        if (!playerAttack.isAttacking)
+        {
+            if (horizontalInput > 0.01f)
+            {
+                transform.localScale = Vector3.one;
+                facingDirection = 1;
+            }
+            else if (horizontalInput < -0.01f)
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+                facingDirection = -1;
+            }
+        }
 
         if (Input.GetKey(KeyCode.Space) && grounded)
-            Jump();
+            {
+                Jump();
+            }
 
         if (Input.GetKey(KeyCode.LeftShift) && canRoll && grounded)
+        {
             StartCoroutine(Roll());
+        }
 
         anim.SetBool("run", horizontalInput != 0 && !isRolling);
         anim.SetBool("grounded", grounded);
@@ -68,30 +82,32 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator Roll()
     {
         if (!canRoll || playerAttack.isAttacking) yield break;
+        {
 
-        canRoll = false;
-        isRolling = true;
+            canRoll = false;
+            isRolling = true;
 
-        anim.SetTrigger("roll");
-        anim.SetBool("rolling", true);
+            anim.SetTrigger("roll");
+            anim.SetBool("rolling", true);
 
-        float originalGravity = body.gravityScale;
-        body.gravityScale = 0f;
-        body.velocity = new Vector2(transform.localScale.x * rollForce, 0f);
+            float originalGravity = body.gravityScale;
+            body.gravityScale = 0f;
+            body.velocity = new Vector2(transform.localScale.x * rollForce, 0f);
 
-        yield return null;
-        anim.ResetTrigger("roll");
+            yield return null;
+            anim.ResetTrigger("roll");
 
-        yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
+            yield return new WaitUntil(() => anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
 
-        isRolling = false;
-        anim.SetBool("rolling", false);
+            isRolling = false;
+            anim.SetBool("rolling", false);
 
-        body.gravityScale = originalGravity;
+            body.gravityScale = originalGravity;
 
 
-        yield return new WaitForSeconds(rollingCooldown);
-        canRoll = true;
+            yield return new WaitForSeconds(rollingCooldown);
+            canRoll = true;
+        }
      
     }
 
