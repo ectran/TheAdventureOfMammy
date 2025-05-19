@@ -932,10 +932,6 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 1029181912}
-    - target: {fileID: 5398748471662981297, guid: d279d76d43e125d42a26c81a1635adcd, type: 3}
-      propertyPath: invincibilityDuration
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5718393612122734177, guid: d279d76d43e125d42a26c81a1635adcd, type: 3}
       propertyPath: m_Name
       value: Mammy
