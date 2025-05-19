@@ -9,6 +9,10 @@ public class PlayerAttack : MonoBehaviour
     public GameObject attackPoint;
     private PolygonCollider2D attackCollider;
 
+    public GameObject upswingAttackPoint;
+    private PolygonCollider2D upswingCollider;
+    private bool isUpswing = false;
+
     public LayerMask enemies;
     public float damage;
 
@@ -22,7 +26,10 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         attackCollider = attackPoint.GetComponent<PolygonCollider2D>();
+        upswingCollider = upswingAttackPoint.GetComponent<PolygonCollider2D>();
+
         attackCollider.enabled = false;
+        upswingCollider.enabled = false;
     }
 
     void Update()
@@ -32,7 +39,13 @@ public class PlayerAttack : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && !isAttacking && !playerMovement.isRolling)
         {
             isAttacking = true;
-            anim.SetBool("attacking", true);
+
+            isUpswing = Input.GetKey(KeyCode.W);
+            
+            if (isUpswing)
+                anim.SetBool("upswing", true);
+            else
+                anim.SetBool("attack", true);
 
 
             attackTimer = attackDuration;
@@ -58,9 +71,10 @@ public class PlayerAttack : MonoBehaviour
     public void endAttack()
     {
         isAttacking = false;
-        anim.SetBool("attacking", false);
-
+        anim.SetBool("attack", false);
+        anim.SetBool("upswing", false);
         attackCollider.enabled = false;
+        upswingCollider.enabled = false;
 
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.velocity = new Vector2(0, rb.velocity.y);
@@ -69,7 +83,15 @@ public class PlayerAttack : MonoBehaviour
     public void attack()
     {
         attackCollider.enabled = true;
+        upswingCollider.enabled = false;
         StartCoroutine(EnableHitboxForDuration(0.1f));
+    }
+
+    public void attackUpswing()
+    {
+        upswingCollider.enabled = true;
+        attackCollider.enabled = false;
+        StartCoroutine(EnableUpswingHitbox(0.1f));
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -93,12 +115,15 @@ public class PlayerAttack : MonoBehaviour
 
 
             // Knockback player
-            PlayerMovement playerMovement = GetComponent<PlayerMovement>();
-            if (playerMovement != null)
+            if (isUpswing)
             {
-                Vector2 directionFromEnemy = (transform.position - other.transform.position).normalized;
-                Vector2 knockbackVelocity = directionFromEnemy * knockbackForceToPlayer;
-                playerMovement.ApplyKnockback(knockbackVelocity);
+                PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+                if (playerMovement != null)
+                {
+                    Vector2 directionFromEnemy = (transform.position - other.transform.position).normalized;
+                    Vector2 knockbackVelocity = directionFromEnemy * knockbackForceToPlayer;
+                    playerMovement.ApplyKnockback(knockbackVelocity);
+                }
             }
 
 
@@ -111,13 +136,22 @@ public class PlayerAttack : MonoBehaviour
         yield return new WaitForSeconds(duration);
         attackCollider.enabled = false;
     }
+
+    private IEnumerator EnableUpswingHitbox(float duration)
+    {
+        upswingCollider.enabled = true;
+        yield return new WaitForSeconds(duration);
+        upswingCollider.enabled = false;
+    }
     
     public void CancelAttack()
     {
         isAttacking = false;
-        anim.SetBool("attacking", false);
+        anim.SetBool("attack", false);
+        anim.SetBool("upswing", false);
         attackCollider.enabled = false;
-        StopAllCoroutines(); // stops the hitbox coroutine if running
+        upswingCollider.enabled = false;
+        StopAllCoroutines();
     }
 
 
