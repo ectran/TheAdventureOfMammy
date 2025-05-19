@@ -157,7 +157,7 @@ public class PlayerAttack : MonoBehaviour
                 PlayerMovement playerMovement = GetComponent<PlayerMovement>();
                 if (playerMovement != null)
                 {
-                    Vector2 knockbackVelocity = new Vector2(0f, knockbackForceToPlayer);
+                    Vector2 knockbackVelocity = new Vector2(0f, knockbackForceToPlayer * 1.5f);
                     playerMovement.ApplyKnockback(knockbackVelocity);
                 }
             }
