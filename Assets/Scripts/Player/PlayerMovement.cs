@@ -166,12 +166,20 @@ public class PlayerMovement : MonoBehaviour
         isKnockedBack = true;
         knockbackTimer = knockbackDuration;
         knockbackVelocity = velocity;
+
+        if (knockbackVelocity.y > 0.1f)
+        {
+            grounded = false;
+            isJumping = true;
+        }
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Ground")
+        if (collision.gameObject.CompareTag("Ground"))
+        {
             grounded = true;
             isJumping = false;
+        }
     }
 }

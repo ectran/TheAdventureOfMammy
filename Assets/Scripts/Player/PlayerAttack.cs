@@ -69,6 +69,7 @@ public class PlayerAttack : MonoBehaviour
     public void attack()
     {
         attackCollider.enabled = true;
+        StartCoroutine(EnableHitboxForDuration(0.1f));
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -100,9 +101,26 @@ public class PlayerAttack : MonoBehaviour
                 playerMovement.ApplyKnockback(knockbackVelocity);
             }
 
-        
+
         }
     }
+
+    private IEnumerator EnableHitboxForDuration(float duration)
+    {
+        attackCollider.enabled = true;
+        yield return new WaitForSeconds(duration);
+        attackCollider.enabled = false;
+    }
+    
+    public void CancelAttack()
+    {
+        isAttacking = false;
+        anim.SetBool("attacking", false);
+        attackCollider.enabled = false;
+        StopAllCoroutines(); // stops the hitbox coroutine if running
+    }
+
+
 
     
 }

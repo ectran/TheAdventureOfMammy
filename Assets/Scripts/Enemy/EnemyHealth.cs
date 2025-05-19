@@ -52,13 +52,20 @@ public class EnemyHealth : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("Collision with: " + other.gameObject.name);
         if (other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<PlayerHealth>().health -= damage;
+            // Deal damage
+            PlayerHealth playerHealth = other.gameObject.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage, transform);
+
+            }
+
             Debug.Log("Player collided with enemy");
         }
     }
+
 
 }
 
