@@ -765,6 +765,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SMammy
       objectReference: {fileID: 0}
+    - target: {fileID: 1657407608095483482, guid: 7ffd418a717c37c43862673d5b7b16f1, type: 3}
+      propertyPath: health
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 6430340243970248982, guid: 7ffd418a717c37c43862673d5b7b16f1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.1535671

@@ -7,12 +7,19 @@ public class PlayerAttack : MonoBehaviour
     public bool isAttacking { get; private set; } = false;
 
     public GameObject attackPoint;
-    public float radius;
+    private PolygonCollider2D attackCollider;
+
     public LayerMask enemies;
     public float damage;
 
-    private float attackDuration = 0.25f;
+    private float attackDuration = 0.5f;
     private float attackTimer = 0f;
+
+    void Start()
+    {
+        attackCollider = attackPoint.GetComponent<PolygonCollider2D>();
+        attackCollider.enabled = false;
+    }
 
     void Update()
     {
@@ -41,7 +48,6 @@ public class PlayerAttack : MonoBehaviour
 
     public void startAttack()
     {
-        attack();
         attackTimer = attackDuration;
     }
 
@@ -50,30 +56,30 @@ public class PlayerAttack : MonoBehaviour
         isAttacking = false;
         anim.SetBool("attacking", false);
 
-        GetComponent<Rigidbody2D>().velocity = new Vector2(0, GetComponent<Rigidbody2D>().velocity.y);
+        attackCollider.enabled = false;
+
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.velocity = new Vector2(0, rb.velocity.y);
     }
 
     public void attack()
     {
-        Collider2D[] enemy = Physics2D.OverlapCircleAll(attackPoint.transform.position, radius, enemies);
-
-        foreach (Collider2D enemyGameObject in enemy)
-        {
-            Debug.Log("Hit enemy");
-            enemyGameObject.GetComponent<EnemyHealth>().health -= damage;
-        }
+        attackCollider.enabled = true;
     }
 
-    private void OnDrawGizmos()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPoint.transform.position, radius);
-
-        if (attackPoint != null)
+        if (((1 << other.gameObject.layer) & enemies) != 0)
         {
-            Gizmos.color = isAttacking ? Color.green : Color.red;
-            Gizmos.DrawWireSphere(attackPoint.transform.position, radius);
+            //Debug.Log("Hit enemy with polygon collider");
+            EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.health -= damage;
+            }
         }
     }
+
+    
 }
     
