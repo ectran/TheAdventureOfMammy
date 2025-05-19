@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4249831472452615965}
   - component: {fileID: 6193592926013620303}
   - component: {fileID: 1657407608095483482}
+  - component: {fileID: 1207582785614389921}
   - component: {fileID: 5003987572833625270}
   m_Layer: 7
   m_Name: SMammy
@@ -175,6 +176,18 @@ MonoBehaviour:
   health: 50
   currentHealth: 0
   damage: 20
+--- !u!114 &1207582785614389921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665226410836312742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 084c70df20c92ad478bd1bf8c666a7cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &5003987572833625270
 Animator:
   serializedVersion: 5

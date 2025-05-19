@@ -19,6 +19,12 @@ public class PlayerMovement : MonoBehaviour
     public float rollForce;
     public float rollingCooldown;
 
+    public bool isKnockedBack = false;
+    private float knockbackTimer = 0f;
+    public float knockbackDuration = 0.3f;
+    private Vector2 knockbackVelocity;
+
+
 
     private void Awake()
     {
@@ -35,6 +41,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        if (isKnockedBack)
+        {
+            knockbackTimer -= Time.fixedDeltaTime;
+            if (knockbackTimer <= 0f)
+            {
+                isKnockedBack = false;
+            }
+            else
+            {
+                body.velocity = knockbackVelocity;
+                return; 
+            }
+        }
+
         if (isRolling)
         {
             return;
@@ -90,6 +111,8 @@ public class PlayerMovement : MonoBehaviour
             anim.SetTrigger("roll");
             anim.SetBool("rolling", true);
 
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+
             float originalGravity = body.gravityScale;
             body.gravityScale = 0f;
             body.velocity = new Vector2(transform.localScale.x * rollForce, 0f);
@@ -101,6 +124,8 @@ public class PlayerMovement : MonoBehaviour
 
             isRolling = false;
             anim.SetBool("rolling", false);
+
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
 
             body.gravityScale = originalGravity;
 
@@ -116,6 +141,13 @@ public class PlayerMovement : MonoBehaviour
         body.velocity = new Vector2(body.velocity.x, jumpForce);
         anim.SetTrigger("jump");
         grounded = false;
+    }
+
+    public void ApplyKnockback(Vector2 velocity)
+    {
+        isKnockedBack = true;
+        knockbackTimer = knockbackDuration;
+        knockbackVelocity = velocity;
     }
 
     public void OnCollisionEnter2D(Collision2D collision)

@@ -15,6 +15,10 @@ public class PlayerAttack : MonoBehaviour
     private float attackDuration = 0.5f;
     private float attackTimer = 0f;
 
+    public float knockbackForceToEnemy = 1f;
+    public float knockbackForceToPlayer = 1.5f;
+
+
     void Start()
     {
         attackCollider = attackPoint.GetComponent<PolygonCollider2D>();
@@ -77,6 +81,26 @@ public class PlayerAttack : MonoBehaviour
             {
                 enemyHealth.health -= damage;
             }
+
+            // Knockback enemy
+            EnemyAI enemyAI = other.GetComponent<EnemyAI>();
+            if (enemyAI != null)
+            {
+                Vector2 direction = (other.transform.position - transform.position).normalized;
+                enemyAI.ApplyKnockback(direction * knockbackForceToEnemy);
+            }
+
+
+            // Knockback player
+            PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                Vector2 directionFromEnemy = (transform.position - other.transform.position).normalized;
+                Vector2 knockbackVelocity = directionFromEnemy * knockbackForceToPlayer;
+                playerMovement.ApplyKnockback(knockbackVelocity);
+            }
+
+        
         }
     }
 
