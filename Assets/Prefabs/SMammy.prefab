@@ -175,7 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 50
   currentHealth: 0
-  damage: 20
+  damage: 40
 --- !u!114 &1207582785614389921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +188,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 084c70df20c92ad478bd1bf8c666a7cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  moveSpeed: 1
+  knockbackDuration: 0.3
 --- !u!95 &5003987572833625270
 Animator:
   serializedVersion: 5

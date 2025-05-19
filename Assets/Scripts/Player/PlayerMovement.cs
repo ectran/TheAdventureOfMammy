@@ -25,6 +25,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 knockbackVelocity;
 
 
+    private PlayerStamina playerStamina;
+    public float staminaCostPerRoll = 50f;
+
+
 
     private void Awake()
     {
@@ -36,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         playerAttack = GetComponent<PlayerAttack>();
+        playerStamina = GetComponent<PlayerStamina>();
+
 
     }
 
@@ -102,11 +108,12 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator Roll()
     {
-        if (!canRoll || playerAttack.isAttacking) yield break;
+        if (!canRoll || playerAttack.isAttacking || playerStamina == null || !playerStamina.UseStamina(staminaCostPerRoll)) yield break;
         {
 
             canRoll = false;
             isRolling = true;
+            playerStamina.SetDraining(true);
 
             anim.SetTrigger("roll");
             anim.SetBool("rolling", true);
@@ -129,6 +136,7 @@ public class PlayerMovement : MonoBehaviour
 
             body.gravityScale = originalGravity;
 
+            playerStamina.SetDraining(false);
 
             yield return new WaitForSeconds(rollingCooldown);
             canRoll = true;

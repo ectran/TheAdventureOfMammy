@@ -112,6 +112,7 @@ GameObject:
   - component: {fileID: 1776520797759873221}
   - component: {fileID: 4803218057393222956}
   - component: {fileID: 5398748471662981297}
+  - component: {fileID: 7276994269318856905}
   - component: {fileID: 1487364112548591914}
   m_Layer: 9
   m_Name: Mammy
@@ -272,11 +273,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3c2273d5850db74f9f84dc0facbd9c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
-  jumpForce: 4
+  moveSpeed: 3
+  jumpForce: 5
   isRolling: 0
-  rollForce: 3
+  rollForce: 4
   rollingCooldown: 0.4
+  isKnockedBack: 0
+  knockbackDuration: 0.3
+  staminaCostPerRoll: 30
 --- !u!114 &4803218057393222956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,11 +295,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 1487364112548591914}
   attackPoint: {fileID: 572261398226898626}
-  radius: 0.18
   enemies:
     serializedVersion: 2
     m_Bits: 128
   damage: 20
+  knockbackForceToEnemy: 2
+  knockbackForceToPlayer: 1.5
 --- !u!114 &5398748471662981297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,6 +316,22 @@ MonoBehaviour:
   health: 100
   maxHealth: 0
   healthBar: {fileID: 0}
+--- !u!114 &7276994269318856905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5718393612122734177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d85c9f6750f3d40916c514834404b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stamina: 100
+  maxStamina: 0
+  staminaBar: {fileID: 0}
+  regenRate: 30
 --- !u!95 &1487364112548591914
 Animator:
   serializedVersion: 5
