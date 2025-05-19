@@ -274,13 +274,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  jumpForce: 5
+  jumpForce: 6
   isRolling: 0
   rollForce: 4
   rollingCooldown: 0.4
   isKnockedBack: 0
   knockbackDuration: 0.3
   staminaCostPerRoll: 30
+  jumpCutMultiplier: 0.5
 --- !u!114 &4803218057393222956
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -28,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     private PlayerStamina playerStamina;
     public float staminaCostPerRoll = 50f;
 
+    public float jumpCutMultiplier = 0.5f;
+    private bool isJumping = false;
+
 
 
     private void Awake()
@@ -58,7 +61,7 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 body.velocity = knockbackVelocity;
-                return; 
+                return;
             }
         }
 
@@ -93,9 +96,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (Input.GetKey(KeyCode.Space) && grounded)
-            {
-                Jump();
-            }
+        {
+            Jump();
+        }
 
         if (Input.GetKey(KeyCode.LeftShift) && canRoll && grounded)
         {
@@ -104,6 +107,12 @@ public class PlayerMovement : MonoBehaviour
 
         anim.SetBool("run", horizontalInput != 0 && !isRolling);
         anim.SetBool("grounded", grounded);
+        
+        if (isJumping && !Input.GetKey(KeyCode.Space) && body.velocity.y > 0f)
+{
+        body.velocity = new Vector2(body.velocity.x, body.velocity.y * jumpCutMultiplier);
+        isJumping = false;
+    }
     }
 
     private IEnumerator Roll()
@@ -149,6 +158,7 @@ public class PlayerMovement : MonoBehaviour
         body.velocity = new Vector2(body.velocity.x, jumpForce);
         anim.SetTrigger("jump");
         grounded = false;
+        isJumping = true;
     }
 
     public void ApplyKnockback(Vector2 velocity)
@@ -162,5 +172,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ground")
             grounded = true;
+            isJumping = false;
     }
 }
