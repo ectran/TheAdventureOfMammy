@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float moveSpeed; 
     public float jumpForce; 
-    private bool grounded;
+    public bool grounded;
 
     public int facingDirection { get; private set; } = 1; 
 

@@ -13,6 +13,10 @@ public class PlayerAttack : MonoBehaviour
     private PolygonCollider2D upswingCollider;
     private bool isUpswing = false;
 
+    public GameObject downswingAttackPoint;
+    private PolygonCollider2D downswingCollider;
+    private bool isDownswing = false;
+
     public LayerMask enemies;
     public float damage;
 
@@ -27,9 +31,11 @@ public class PlayerAttack : MonoBehaviour
     {
         attackCollider = attackPoint.GetComponent<PolygonCollider2D>();
         upswingCollider = upswingAttackPoint.GetComponent<PolygonCollider2D>();
+        downswingCollider = downswingAttackPoint.GetComponent<PolygonCollider2D>();
 
         attackCollider.enabled = false;
         upswingCollider.enabled = false;
+        downswingCollider.enabled = false;
     }
 
     void Update()
@@ -41,9 +47,12 @@ public class PlayerAttack : MonoBehaviour
             isAttacking = true;
 
             isUpswing = Input.GetKey(KeyCode.W);
-            
+            isDownswing = Input.GetKey(KeyCode.S) && !playerMovement.grounded;
+
             if (isUpswing)
                 anim.SetBool("upswing", true);
+            else if (isDownswing)
+                anim.SetBool("downswing", true);
             else
                 anim.SetBool("attack", true);
 
@@ -71,10 +80,16 @@ public class PlayerAttack : MonoBehaviour
     public void endAttack()
     {
         isAttacking = false;
+        isUpswing = false;
+        isDownswing = false;
+
         anim.SetBool("attack", false);
         anim.SetBool("upswing", false);
+        anim.SetBool("downswing", false);
+
         attackCollider.enabled = false;
         upswingCollider.enabled = false;
+        downswingCollider.enabled = false;
 
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.velocity = new Vector2(0, rb.velocity.y);
@@ -84,6 +99,7 @@ public class PlayerAttack : MonoBehaviour
     {
         attackCollider.enabled = true;
         upswingCollider.enabled = false;
+        downswingCollider.enabled = false;
         StartCoroutine(EnableHitboxForDuration(0.1f));
     }
 
@@ -91,8 +107,18 @@ public class PlayerAttack : MonoBehaviour
     {
         upswingCollider.enabled = true;
         attackCollider.enabled = false;
+        downswingCollider.enabled = false;
         StartCoroutine(EnableUpswingHitbox(0.1f));
     }
+
+    public void attackDownswing()
+    {
+        downswingCollider.enabled = true;
+        attackCollider.enabled = false;
+        upswingCollider.enabled = false;
+        StartCoroutine(EnableDownswingHitbox(0.1f));
+    }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -115,7 +141,7 @@ public class PlayerAttack : MonoBehaviour
 
 
             // Knockback player
-            if (isUpswing)
+            if (!isUpswing && !isDownswing)
             {
                 PlayerMovement playerMovement = GetComponent<PlayerMovement>();
                 if (playerMovement != null)
@@ -125,7 +151,16 @@ public class PlayerAttack : MonoBehaviour
                     playerMovement.ApplyKnockback(knockbackVelocity);
                 }
             }
-
+            else if (isDownswing)
+            {
+                // Vertical knockback (upwards) for downswing
+                PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+                if (playerMovement != null)
+                {
+                    Vector2 knockbackVelocity = new Vector2(0f, knockbackForceToPlayer);
+                    playerMovement.ApplyKnockback(knockbackVelocity);
+                }
+            }
 
         }
     }
@@ -143,14 +178,28 @@ public class PlayerAttack : MonoBehaviour
         yield return new WaitForSeconds(duration);
         upswingCollider.enabled = false;
     }
+
+    private IEnumerator EnableDownswingHitbox(float duration)
+    {
+        downswingCollider.enabled = true;
+        yield return new WaitForSeconds(duration);
+        downswingCollider.enabled = false;
+    }
+
     
     public void CancelAttack()
     {
         isAttacking = false;
+        isUpswing = false;
+        isDownswing = false;
+
         anim.SetBool("attack", false);
         anim.SetBool("upswing", false);
+        anim.SetBool("downswing", false);
+
         attackCollider.enabled = false;
         upswingCollider.enabled = false;
+        downswingCollider.enabled = false;
         StopAllCoroutines();
     }
 
