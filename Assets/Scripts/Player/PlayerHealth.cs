@@ -16,12 +16,15 @@ public class PlayerHealth : MonoBehaviour
     private bool isInvincible = false;
     public float invincibilityDuration = 1f;
 
+    private Animator anim;
+
 
 
     void Start()
     {
         maxHealth = health;
         playerMovement = GetComponent<PlayerMovement>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -55,6 +58,26 @@ public class PlayerHealth : MonoBehaviour
         if (attackScript != null && attackScript.isAttacking)
         {
             attackScript.CancelAttack();
+        }
+
+        if (anim != null)
+        {
+            anim.SetTrigger("hurt");
+        }
+
+        if (health <= 0f && anim != null)
+        {
+            anim.SetTrigger("die");
+            // Optionally: disable movement, input, etc.
+            if (playerMovement != null)
+            {
+                playerMovement.enabled = false;
+            }
+
+            // Stop physics if needed
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            GetComponent<Rigidbody2D>().isKinematic = true; // Optional
+            GetComponent<Collider2D>().enabled = false;     // Optional
         }
 
     }

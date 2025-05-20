@@ -513,7 +513,7 @@ MonoBehaviour:
   maxHealth: 0
   healthBar: {fileID: 0}
   knockbackForce: 3
-  invincibilityDuration: 2
+  invincibilityDuration: 1.5
 --- !u!114 &7276994269318856905
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,10 +14,13 @@ public class EnemyAI : MonoBehaviour
     public float knockbackDuration = 0.3f;
     private Vector2 knockbackVelocity;
 
+    private Animator anim;
+
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
 
         if (player == null)
         {
@@ -41,12 +44,19 @@ public class EnemyAI : MonoBehaviour
             else
             {
                 rb.velocity = knockbackVelocity;
+                if (anim != null)
+                    anim.SetBool("run", false);
                 return;
             }
         }
 
         Vector2 direction = (player.position - transform.position).normalized;
         rb.velocity = new Vector2(direction.x * moveSpeed, rb.velocity.y);
+        
+
+        if (anim != null)
+            anim.SetBool("run", Mathf.Abs(direction.x) > 0.01f); 
+
 
         if (direction.x > 0.01f)
             transform.localScale = new Vector3(1, 1, 1);
