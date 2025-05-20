@@ -11,6 +11,9 @@ public class PlayerHealth : MonoBehaviour
     public Image healthBar;
 
     private PlayerMovement playerMovement;
+    private float normalSpeed;
+    public float healSlowSpeed = 1f;
+    private bool isHealingActive = false;
     public float knockbackForce = 2f;
 
     private bool isInvincible = false;
@@ -27,7 +30,7 @@ public class PlayerHealth : MonoBehaviour
 
     public Image refillBarFill; 
     public Image[] honeyIcons;
-
+    private Coroutine healingCoroutine;
 
 
     void Start()
@@ -35,24 +38,32 @@ public class PlayerHealth : MonoBehaviour
         maxHealth = health;
         playerMovement = GetComponent<PlayerMovement>();
         anim = GetComponent<Animator>();
+
+        if (playerMovement != null)
+            normalSpeed = playerMovement.moveSpeed;
         
         UpdateHoneyUI();
     }
 
-    // Update is called once per frame
     void Update()
     {
         healthBar.fillAmount = Mathf.Clamp(health / maxHealth, 0, 1);
 
-            if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             UseHoneyFlask();
         }
+
     }
 
     public void TakeDamage(float damageAmount, Transform damageSource)
     {
         if (isInvincible) return;
+
+        if (isHealingActive)
+        {
+            CancelHealing();
+        }
 
         health -= damageAmount;
 
@@ -65,7 +76,6 @@ public class PlayerHealth : MonoBehaviour
             playerMovement.ApplyKnockback(knockbackDir * knockbackForce);
         }
 
-        // Optional: Clamp health to 0
         health = Mathf.Max(health, 0);
 
         StartCoroutine(InvincibilityCoroutine());
@@ -97,20 +107,61 @@ public class PlayerHealth : MonoBehaviour
         }
 
     }
+    
+    private void CancelHealing()
+    {
+        if (!isHealingActive) return;
+
+        isHealingActive = false;
+
+        if (healingCoroutine != null)
+            StopCoroutine(healingCoroutine);
+
+        anim.SetBool("heal", false);
+
+        if (playerMovement != null)
+            playerMovement.moveSpeed = normalSpeed;
+
+    }
 
     public void UseHoneyFlask()
     {
-        if (currentHoneyFlasks <= 0) return;
+        if (currentHoneyFlasks <= 0 || isHealingActive) return;
 
-        currentHoneyFlasks--;
-        health = Mathf.Min(health + healAmount, maxHealth);
-
+        currentHoneyFlasks--; 
         UpdateHoneyUI();
 
-        if (anim != null)
+        if (anim != null && playerMovement != null)
         {
-            anim.SetTrigger("heal");
+            isHealingActive = true;
+            anim.SetBool("heal", true);
+            playerMovement.moveSpeed = healSlowSpeed;
+
+            healingCoroutine = StartCoroutine(HealingRoutine());
         }
+    }
+
+    private IEnumerator HealingRoutine()
+    {
+        float healDuration = .7f;
+        float timer = 0f;
+
+        while (timer < healDuration)
+        {
+            if (!isHealingActive) 
+                yield break;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        // Heal only if heal was not canceled
+        health = Mathf.Min(health + healAmount, maxHealth);
+
+        anim.SetBool("heal", false);
+        playerMovement.moveSpeed = normalSpeed;
+        isHealingActive = false;
+
     }
 
     void UpdateHoneyUI()
@@ -123,6 +174,13 @@ public class PlayerHealth : MonoBehaviour
         if (refillBarFill != null)
             refillBarFill.fillAmount = refillProgress / refillThreshold;
     }
+
+    public void ApplyHealing()
+    {
+        health = Mathf.Min(health + healAmount, maxHealth);
+        UpdateHoneyUI();
+    }
+
 
     public void GainSweetness(float amount)
     {
