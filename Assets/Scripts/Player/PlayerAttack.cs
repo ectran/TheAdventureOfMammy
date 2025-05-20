@@ -26,6 +26,9 @@ public class PlayerAttack : MonoBehaviour
     public float knockbackForceToEnemy = 1f;
     public float knockbackForceToPlayer = 1.5f;
 
+    private PlayerHealth playerHealth;
+
+
 
     void Start()
     {
@@ -36,6 +39,8 @@ public class PlayerAttack : MonoBehaviour
         attackCollider.enabled = false;
         upswingCollider.enabled = false;
         downswingCollider.enabled = false;
+
+        playerHealth = GetComponent<PlayerHealth>();
     }
 
     void Update()
@@ -119,7 +124,6 @@ public class PlayerAttack : MonoBehaviour
         StartCoroutine(EnableDownswingHitbox(0.1f));
     }
 
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (((1 << other.gameObject.layer) & enemies) != 0)
@@ -128,7 +132,20 @@ public class PlayerAttack : MonoBehaviour
             EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
             {
-                enemyHealth.health -= damage;
+                float finalDamage = damage;
+
+                if (playerHealth != null && playerHealth.IsSweetnessBuffActive())
+                {
+                    finalDamage *= 1.5f;
+                }
+
+                enemyHealth.health -= finalDamage;
+                Debug.Log($"Player dealt {finalDamage} damage.");
+
+                if (playerHealth != null)
+                {
+                    playerHealth.GainSweetness(10f);
+                }
             }
 
             // Knockback enemy
@@ -186,7 +203,7 @@ public class PlayerAttack : MonoBehaviour
         downswingCollider.enabled = false;
     }
 
-    
+
     public void CancelAttack()
     {
         isAttacking = false;
@@ -205,6 +222,7 @@ public class PlayerAttack : MonoBehaviour
 
 
 
-    
+
+
 }
     
