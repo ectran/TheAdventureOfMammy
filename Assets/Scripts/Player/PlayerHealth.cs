@@ -155,9 +155,6 @@ public class PlayerHealth : MonoBehaviour
             yield return null;
         }
 
-        // Heal only if heal was not canceled
-        health = Mathf.Min(health + healAmount, maxHealth);
-
         anim.SetBool("heal", false);
         playerMovement.moveSpeed = normalSpeed;
         isHealingActive = false;
