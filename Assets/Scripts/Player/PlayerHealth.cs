@@ -35,6 +35,11 @@ public class PlayerHealth : MonoBehaviour
     public Animator emmyAnimator;
     private bool lastSweetnessBuffState = false;
 
+    public Image healthBarChip;
+    public float chipSpeed = .5f;
+
+    public Image sweetnessBarChip;
+
 
     void Start()
     {
@@ -44,17 +49,48 @@ public class PlayerHealth : MonoBehaviour
 
         if (playerMovement != null)
             normalSpeed = playerMovement.moveSpeed;
-        
+
         UpdateHoneyUI();
+        
+        if (sweetnessBarChip != null)
+        {
+            sweetnessBarChip.fillAmount = 0f;
+        }
+
     }
 
     void Update()
     {
-        healthBar.fillAmount = Mathf.Clamp(health / maxHealth, 0, 1);
+        float targetFill = Mathf.Clamp(health / maxHealth, 0, 1);
+
+        healthBar.fillAmount = targetFill;
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
             UseHoneyFlask();
+        }
+
+        if (healthBarChip.fillAmount > targetFill)
+        {
+            healthBarChip.fillAmount = Mathf.MoveTowards(healthBarChip.fillAmount, targetFill, chipSpeed * Time.deltaTime);
+        }
+        else if (healthBarChip.fillAmount < targetFill)
+        {
+            healthBarChip.fillAmount = targetFill;
+        }
+
+        float refillNormalized = refillProgress / refillThreshold;
+
+        if (sweetnessBarChip != null)
+        {
+            if (sweetnessBarChip.fillAmount > refillNormalized)
+            {
+                sweetnessBarChip.fillAmount = Mathf.MoveTowards(sweetnessBarChip.fillAmount, refillNormalized, chipSpeed * Time.deltaTime);
+            }
+            else
+            {
+                sweetnessBarChip.fillAmount = refillNormalized;
+            }
         }
 
         bool isSweetnessBuffActive = IsSweetnessBuffActive();
@@ -192,7 +228,16 @@ public class PlayerHealth : MonoBehaviour
 
         if (refillBarFill != null)
             refillBarFill.fillAmount = refillProgress / refillThreshold;
+
+        if (sweetnessBarChip != null)
+    {
+        float refillNormalized = refillProgress / refillThreshold;
+        if (sweetnessBarChip.fillAmount < refillNormalized)
+        {
+            sweetnessBarChip.fillAmount = refillNormalized;
+        }
     }
+        }
 
     public void ApplyHealing()
     {

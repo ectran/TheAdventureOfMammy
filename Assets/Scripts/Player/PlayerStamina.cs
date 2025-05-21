@@ -11,6 +11,9 @@ public class PlayerStamina : MonoBehaviour
     public float regenRate = 20f;
     private bool isDraining = false;
 
+    public Image staminaBarChip;
+    public float chipSpeed = .5f;
+
     void Start()
     {
         maxStamina = stamina;
@@ -24,8 +27,23 @@ public class PlayerStamina : MonoBehaviour
             stamina = Mathf.Clamp(stamina, 0, maxStamina);
         }
 
-        staminaBar.fillAmount = Mathf.Clamp(stamina / maxStamina, 0, 1);
+        float normalizedStamina = Mathf.Clamp(stamina / maxStamina, 0f, 1f);
+
+        staminaBar.fillAmount = normalizedStamina;
+
+        if (staminaBarChip != null)
+        {
+            if (staminaBarChip.fillAmount > normalizedStamina)
+            {
+                staminaBarChip.fillAmount = Mathf.MoveTowards(staminaBarChip.fillAmount, normalizedStamina, chipSpeed * Time.deltaTime);
+            }
+            else
+            {
+                staminaBarChip.fillAmount = normalizedStamina;
+            }
+        }
     }
+    
 
     public bool UseStamina(float amount)
     {
