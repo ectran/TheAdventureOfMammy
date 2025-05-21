@@ -579,6 +579,8 @@ GameObject:
   - component: {fileID: 721331311}
   - component: {fileID: 721331313}
   - component: {fileID: 721331312}
+  - component: {fileID: 721331315}
+  - component: {fileID: 721331314}
   m_Layer: 5
   m_Name: Emmy
   m_TagString: Untagged
@@ -602,7 +604,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400, y: 350}
+  m_AnchoredPosition: {x: -450, y: 350}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &721331312
@@ -643,6 +645,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 721331310}
   m_CullTransparentMesh: 1
+--- !u!95 &721331314
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721331310}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 29867424728592746b361125a5c91794, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &721331315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721331310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d278cbf761515904a82dfc4261c9aa1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealth: {fileID: 1860675193}
 --- !u!1 &1029181910
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,7 +1077,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400, y: 350}
+  m_AnchoredPosition: {x: -450, y: 350}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1767173476
@@ -1157,6 +1193,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1855398557}
   m_CullTransparentMesh: 1
+--- !u!114 &1860675193 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5398748471662981297, guid: d279d76d43e125d42a26c81a1635adcd, type: 3}
+  m_PrefabInstance: {fileID: 38157515166590260}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30aed3f8bf53ea84684900853adec570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1950901588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,13 +1360,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1029181912}
     - target: {fileID: 5398748471662981297, guid: d279d76d43e125d42a26c81a1635adcd, type: 3}
+      propertyPath: emmyAnimator
+      value: 
+      objectReference: {fileID: 721331314}
+    - target: {fileID: 5398748471662981297, guid: d279d76d43e125d42a26c81a1635adcd, type: 3}
       propertyPath: refillBarFill
       value: 
       objectReference: {fileID: 1950901590}
-    - target: {fileID: 5398748471662981297, guid: d279d76d43e125d42a26c81a1635adcd, type: 3}
-      propertyPath: honeyIcons.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 5398748471662981297, guid: d279d76d43e125d42a26c81a1635adcd, type: 3}
       propertyPath: honeyIcons.Array.data[0]
       value: 

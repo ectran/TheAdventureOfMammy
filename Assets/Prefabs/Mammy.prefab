@@ -512,8 +512,20 @@ MonoBehaviour:
   health: 100
   maxHealth: 0
   healthBar: {fileID: 0}
+  healSlowSpeed: 1
   knockbackForce: 3
   invincibilityDuration: 1.5
+  maxHoneyFlasks: 3
+  currentHoneyFlasks: 3
+  refillProgress: 0
+  refillThreshold: 100
+  healAmount: 70
+  refillBarFill: {fileID: 0}
+  honeyIcons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  emmyAnimator: {fileID: 0}
 --- !u!114 &7276994269318856905
 MonoBehaviour:
   m_ObjectHideFlags: 0

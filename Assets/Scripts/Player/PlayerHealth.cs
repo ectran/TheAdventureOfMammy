@@ -32,6 +32,9 @@ public class PlayerHealth : MonoBehaviour
     public Image[] honeyIcons;
     private Coroutine healingCoroutine;
 
+    public Animator emmyAnimator;
+    private bool lastSweetnessBuffState = false;
+
 
     void Start()
     {
@@ -52,6 +55,17 @@ public class PlayerHealth : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             UseHoneyFlask();
+        }
+
+        bool isSweetnessBuffActive = IsSweetnessBuffActive();
+        if (isSweetnessBuffActive != lastSweetnessBuffState)
+        {
+            lastSweetnessBuffState = isSweetnessBuffActive;
+
+            if (emmyAnimator != null)
+            {
+                emmyAnimator.SetBool("sparkle", isSweetnessBuffActive);
+            }
         }
 
     }
@@ -104,6 +118,11 @@ public class PlayerHealth : MonoBehaviour
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             GetComponent<Rigidbody2D>().isKinematic = true;
             GetComponent<Collider2D>().enabled = false;
+
+            if (emmyAnimator != null)
+            {
+                emmyAnimator.SetTrigger("cry");
+            }
         }
 
     }
@@ -131,6 +150,8 @@ public class PlayerHealth : MonoBehaviour
         currentHoneyFlasks--; 
         UpdateHoneyUI();
 
+        TryRefillFromSweetness(); 
+
         if (anim != null && playerMovement != null)
         {
             isHealingActive = true;
@@ -140,6 +161,7 @@ public class PlayerHealth : MonoBehaviour
             healingCoroutine = StartCoroutine(HealingRoutine());
         }
     }
+
 
     private IEnumerator HealingRoutine()
     {
@@ -178,30 +200,46 @@ public class PlayerHealth : MonoBehaviour
         UpdateHoneyUI();
     }
 
+    private void TryRefillFromSweetness()
+    {
+        if (refillProgress >= refillThreshold)
+        {
+            if (currentHoneyFlasks < maxHoneyFlasks)
+            {
+                if (emmyAnimator != null)
+                {
+                    emmyAnimator.SetTrigger("heal");
+                }
+            }
+            else
+            {
+                refillProgress = refillThreshold; 
+            }
+        }
+    }
 
     public void GainSweetness(float amount)
     {
-
         refillProgress += amount;
         refillProgress = Mathf.Min(refillProgress, refillThreshold);
 
         if (refillBarFill != null)
             refillBarFill.fillAmount = refillProgress / refillThreshold;
 
-        if (refillProgress >= refillThreshold)
+        TryRefillFromSweetness();
+    }
+
+
+    public void RefillHoneyFlask()
+    {
+        if (refillProgress >= refillThreshold && currentHoneyFlasks < maxHoneyFlasks)
         {
-            if (currentHoneyFlasks < maxHoneyFlasks)
-            {
-                refillProgress = 0f;
-                currentHoneyFlasks++;
-                UpdateHoneyUI();
-            }
-            else
-            {
-                refillProgress = refillThreshold;
-            }
+            refillProgress = 0f;
+            currentHoneyFlasks++;
+            UpdateHoneyUI();
         }
     }
+
 
     public bool IsSweetnessBuffActive()
     {
