@@ -46,6 +46,36 @@ public class PlayerHealth : MonoBehaviour
 
     public Image sweetnessBarChip;
 
+    public DialogueManager dialogueManager;
+
+    string[] deathLines = {
+        "M- Mammy? Please wake up… ;^;",
+        "I’m sorry…",
+        "Nooooo!",
+        "Don’t leave me here… ):",
+        "Everything feels so cold without you…",
+        "Stay with me please…"
+
+    };
+
+    string[] buffLines = {
+        "You're glowing, honey!",
+        "Don't let it get to your head, love!",
+        "Go get 'em! <3",
+        "You're so full of sweetness!",
+        "That buff looks good on you! C;",
+        "Go Mammy go! go Mammy go!! Go Mammy goooo!!!"
+    };
+
+    string[] refillLines = {
+        "Let me help you out there, honey!",
+        "You're welcome! Mwah!!",
+        "All set, Mammy! Don't waste it!",
+        "I'm right here! Forever and always hehe.",
+        "I got you, don't worry!",
+        "More honey for my love!"
+    };
+
 
     void Start()
     {
@@ -128,6 +158,12 @@ public class PlayerHealth : MonoBehaviour
             {
                 emmyAnimator.SetBool("sparkle", isSweetnessBuffActive);
             }
+
+            if (isSweetnessBuffActive)
+            {
+                string chosenBuffLine = buffLines[Random.Range(0, buffLines.Length)];
+                dialogueManager?.ShowDialogue(chosenBuffLine);
+            }
         }
 
     }
@@ -170,6 +206,9 @@ public class PlayerHealth : MonoBehaviour
 
         if (health <= 0f && anim != null)
         {
+            string chosenDeathLine = deathLines[Random.Range(0, deathLines.Length)];
+            dialogueManager?.ShowDialogue(chosenDeathLine);
+
             anim.SetTrigger("die");
             if (playerMovement != null)
             {
@@ -281,10 +320,13 @@ public class PlayerHealth : MonoBehaviour
                 {
                     emmyAnimator.SetTrigger("heal");
                 }
+
+                string chosenRefillLine = refillLines[Random.Range(0, refillLines.Length)];
+                dialogueManager?.ShowDialogue(chosenRefillLine);
             }
             else
             {
-                refillProgress = refillThreshold; 
+                refillProgress = refillThreshold;
             }
         }
     }
