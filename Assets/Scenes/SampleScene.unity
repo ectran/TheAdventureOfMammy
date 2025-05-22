@@ -179,7 +179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fd6d8c33410126d4892ab44199cd763e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d8a0aaf2ab4243d4f84a5ec12728dd76, type: 3}
   m_Type: 3
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -1603,6 +1603,10 @@ PrefabInstance:
       propertyPath: sweetnessBarChip
       value: 
       objectReference: {fileID: 131505994}
+    - target: {fileID: 5398748471662981297, guid: d279d76d43e125d42a26c81a1635adcd, type: 3}
+      propertyPath: chipDelayDuration
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5398748471662981297, guid: d279d76d43e125d42a26c81a1635adcd, type: 3}
       propertyPath: honeyIcons.Array.data[0]
       value: 

@@ -36,7 +36,13 @@ public class PlayerHealth : MonoBehaviour
     private bool lastSweetnessBuffState = false;
 
     public Image healthBarChip;
-    public float chipSpeed = .5f;
+    private float chipSpeed = 0.5f;
+
+    private float chipDelayTimerS = 0f;
+    private float chipDelayDurationS = 0.5f;
+
+    private float chipDelayTimerH = 0f;
+    private float chipDelayDurationH = 0.5f;
 
     public Image sweetnessBarChip;
 
@@ -72,11 +78,23 @@ public class PlayerHealth : MonoBehaviour
 
         if (healthBarChip.fillAmount > targetFill)
         {
-            healthBarChip.fillAmount = Mathf.MoveTowards(healthBarChip.fillAmount, targetFill, chipSpeed * Time.deltaTime);
+            if (chipDelayTimerH < chipDelayDurationH)
+            {
+                chipDelayTimerH += Time.deltaTime;
+            }
+            else
+            {
+                healthBarChip.fillAmount = Mathf.MoveTowards(healthBarChip.fillAmount, targetFill, chipSpeed * Time.deltaTime);
+            }
         }
         else if (healthBarChip.fillAmount < targetFill)
         {
             healthBarChip.fillAmount = targetFill;
+            chipDelayTimerH = 0f;
+        }
+        else
+        {
+            chipDelayTimerH = 0f;
         }
 
         float refillNormalized = refillProgress / refillThreshold;
@@ -85,11 +103,19 @@ public class PlayerHealth : MonoBehaviour
         {
             if (sweetnessBarChip.fillAmount > refillNormalized)
             {
-                sweetnessBarChip.fillAmount = Mathf.MoveTowards(sweetnessBarChip.fillAmount, refillNormalized, chipSpeed * Time.deltaTime);
+                if (chipDelayTimerS < chipDelayDurationS)
+                {
+                    chipDelayTimerS += Time.deltaTime;
+                }
+                else
+                {
+                    sweetnessBarChip.fillAmount = Mathf.MoveTowards(sweetnessBarChip.fillAmount, refillNormalized, chipSpeed * Time.deltaTime);
+                }
             }
             else
             {
                 sweetnessBarChip.fillAmount = refillNormalized;
+                chipDelayTimerS = 0f;
             }
         }
 
