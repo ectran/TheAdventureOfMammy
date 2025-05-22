@@ -315,8 +315,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -37, y: -12.5}
-  m_SizeDelta: {x: 4.763008, y: 2.10194}
+  m_AnchoredPosition: {x: -36.35885, y: -6.650861}
+  m_SizeDelta: {x: 3.48071, y: 2.40366}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &384217913
 MonoBehaviour:
@@ -338,10 +338,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: hello
+  m_text: hello there, welcome to the game of the adventure of mammy
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c093535707d244844acf92f80fe11fca, type: 2}
-  m_sharedMaterial: {fileID: -7098562646202952331, guid: c093535707d244844acf92f80fe11fca, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: b54fc66dabcb8554b9a701e97159d4fd, type: 2}
+  m_sharedMaterial: {fileID: -3562868919588020927, guid: b54fc66dabcb8554b9a701e97159d4fd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -365,10 +365,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 5.3
-  m_fontSizeBase: 3
+  m_fontSize: 2.5
+  m_fontSizeBase: 2.5
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 0
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -401,7 +401,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -53.54404, w: -2.8858707}
+  m_margin: {x: 0, y: 0, z: -50.753162, w: -2.8858707}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -902,7 +902,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &800086870
 RectTransform:
   m_ObjectHideFlags: 0
@@ -920,7 +920,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -9}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &800086871
@@ -975,7 +975,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueBox: {fileID: 800086869}
   dialogueText: {fileID: 384217913}
-  displayDuration: 3
 --- !u!1 &1029181910
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,6 +1861,14 @@ PrefabInstance:
       propertyPath: refillBarFill
       value: 
       objectReference: {fileID: 1950901590}
+    - target: {fileID: 5398748471662981297, guid: d279d76d43e125d42a26c81a1635adcd, type: 3}
+      propertyPath: dialogueManager
+      value: 
+      objectReference: {fileID: 800086873}
+    - target: {fileID: 5398748471662981297, guid: d279d76d43e125d42a26c81a1635adcd, type: 3}
+      propertyPath: dialougeManager
+      value: 
+      objectReference: {fileID: 800086873}
     - target: {fileID: 5398748471662981297, guid: d279d76d43e125d42a26c81a1635adcd, type: 3}
       propertyPath: sweetnessBarChip
       value: 
