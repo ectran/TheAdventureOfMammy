@@ -440,7 +440,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.030497462, y: -0.029431462}
+  m_Offset: {x: -0.030497462, y: -0.057808377}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -451,7 +451,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5485348, y: 0.6660532}
+  m_Size: {x: 0.5485348, y: 0.60929936}
   m_EdgeRadius: 0
 --- !u!114 &1776520797759873221
 MonoBehaviour:
@@ -466,15 +466,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  jumpForce: 6
   grounded: 0
   isRolling: 0
-  rollForce: 4
-  rollingCooldown: 0.4
-  isKnockedBack: 0
-  knockbackDuration: 0.3
-  staminaCostPerRoll: 30
-  jumpCutMultiplier: 0.5
 --- !u!114 &4803218057393222956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,9 +487,6 @@ MonoBehaviour:
   enemies:
     serializedVersion: 2
     m_Bits: 128
-  damage: 20
-  knockbackForceToEnemy: 2
-  knockbackForceToPlayer: 1.5
 --- !u!114 &5398748471662981297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -509,17 +499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30aed3f8bf53ea84684900853adec570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  maxHealth: 0
   healthBar: {fileID: 0}
-  healSlowSpeed: 1
-  knockbackForce: 3
-  invincibilityDuration: 1.5
-  maxHoneyFlasks: 3
-  currentHoneyFlasks: 3
-  refillProgress: 0
-  refillThreshold: 100
-  healAmount: 70
   refillBarFill: {fileID: 0}
   honeyIcons:
   - {fileID: 0}
@@ -541,12 +521,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81d85c9f6750f3d40916c514834404b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stamina: 100
-  maxStamina: 0
   staminaBar: {fileID: 0}
-  regenRate: 30
   staminaBarChip: {fileID: 0}
-  chipSpeed: 0.5
 --- !u!95 &1487364112548591914
 Animator:
   serializedVersion: 5

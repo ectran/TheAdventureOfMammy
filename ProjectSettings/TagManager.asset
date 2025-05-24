@@ -19,7 +19,7 @@ TagManager:
   - 
   - PlayerAttck
   - 
-  - 
+  - NPC
   - 
   - 
   - 
@@ -41,4 +41,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI Bubble
+    uniqueID: 1820761641
+    locked: 0
+  - name: Player
+    uniqueID: 2921511565
     locked: 0
