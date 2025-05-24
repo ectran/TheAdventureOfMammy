@@ -6,27 +6,27 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
 
-    public float health;
-    public float maxHealth;
+    private float health = 100;
+    private float maxHealth;
     public Image healthBar;
 
     private PlayerMovement playerMovement;
     private float normalSpeed;
-    public float healSlowSpeed = 1f;
+    private float healSlowSpeed = 1f;
     private bool isHealingActive = false;
-    public float knockbackForce = 2f;
+    private float knockbackForce = 3f;
 
     private bool isInvincible = false;
-    public float invincibilityDuration = 1f;
+    private float invincibilityDuration = 1.5f;
 
     private Animator anim;
 
-    public int maxHoneyFlasks = 3;
-    public int currentHoneyFlasks = 3;
+    private int maxHoneyFlasks = 3;
+    private int currentHoneyFlasks = 3;
 
-    public float refillProgress = 0f;
-    public float refillThreshold = 100f;
-    public float healAmount = 70f;
+    private float refillProgress = 0f;
+    private float refillThreshold = 100f;
+    private float healAmount = 70f;
 
     public Image refillBarFill; 
     public Image[] honeyIcons;

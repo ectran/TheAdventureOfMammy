@@ -4,17 +4,17 @@ using UnityEngine.UI;
 
 public class PlayerStamina : MonoBehaviour
 {
-    public float stamina;
-    public float maxStamina;
+    private float stamina = 100;
+    private float maxStamina;
     public Image staminaBar;
 
-    public float regenRate = 20f;
+    private float regenRate = 30f;
     private bool isDraining = false;
     private float regenDelay = 0.5f;
     private float regenTimer = 0f;
 
     public Image staminaBarChip;
-    public float chipSpeed = 0.5f;
+    private float chipSpeed = 0.5f;
 
     private float chipDelayTimerS = 0f;
     private float chipDelayDurationS = 0.5f;

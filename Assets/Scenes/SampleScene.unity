@@ -1929,10 +1929,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6800003216540102697, guid: d279d76d43e125d42a26c81a1635adcd, type: 3}
-      propertyPath: m_GravityScale
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7276994269318856905, guid: d279d76d43e125d42a26c81a1635adcd, type: 3}
       propertyPath: staminaBar
       value: 

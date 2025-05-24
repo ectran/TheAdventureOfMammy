@@ -18,13 +18,13 @@ public class PlayerAttack : MonoBehaviour
     private bool isDownswing = false;
 
     public LayerMask enemies;
-    public float damage;
+    private float damage = 20f;
 
     private float attackDuration = 0.5f;
     private float attackTimer = 0f;
 
-    public float knockbackForceToEnemy = 1f;
-    public float knockbackForceToPlayer = 1.5f;
+    private float knockbackForceToEnemy = 2f;
+    private float knockbackForceToPlayer = 1.5f;
 
     private PlayerHealth playerHealth;
 

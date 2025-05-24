@@ -527,9 +527,8 @@ MonoBehaviour:
   - {fileID: 0}
   emmyAnimator: {fileID: 0}
   healthBarChip: {fileID: 0}
-  chipSpeed: 0.5
-  chipDelayDuration: 0.5
   sweetnessBarChip: {fileID: 0}
+  dialogueManager: {fileID: 0}
 --- !u!114 &7276994269318856905
 MonoBehaviour:
   m_ObjectHideFlags: 0

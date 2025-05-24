@@ -8,27 +8,27 @@ public class PlayerMovement : MonoBehaviour
     private Animator anim;
     private PlayerAttack playerAttack;
 
-    public float moveSpeed; 
-    public float jumpForce; 
+    public float moveSpeed = 3f; 
+    private float jumpForce = 6f; 
     public bool grounded;
 
     public int facingDirection { get; private set; } = 1; 
 
     private bool canRoll = true;
     public bool isRolling;
-    public float rollForce;
-    public float rollingCooldown;
+    private float rollForce = 4f;
+    private float rollingCooldown = 0.4f;
 
-    public bool isKnockedBack = false;
+    private bool isKnockedBack = false;
     private float knockbackTimer = 0f;
-    public float knockbackDuration = 0.3f;
+    private float knockbackDuration = 0.3f;
     private Vector2 knockbackVelocity;
 
 
     private PlayerStamina playerStamina;
-    public float staminaCostPerRoll = 50f;
+    private float staminaCostPerRoll = 30f;
 
-    public float jumpCutMultiplier = 0.5f;
+    private float jumpCutMultiplier = 0.5f;
     private bool isJumping = false;
 
 
