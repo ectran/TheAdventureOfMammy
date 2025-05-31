@@ -955,6 +955,8 @@ GameObject:
   - component: {fileID: 800086872}
   - component: {fileID: 800086871}
   - component: {fileID: 800086873}
+  - component: {fileID: 800086874}
+  - component: {fileID: 800086875}
   m_Layer: 5
   m_Name: EmmyDialougeBox
   m_TagString: Untagged
@@ -1034,6 +1036,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueBox: {fileID: 800086869}
   dialogueText: {fileID: 384217913}
+  dialougeAnimator: {fileID: 800086874}
+--- !u!95 &800086874
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800086869}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a7e4cff130f91124e827369db45379fb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!225 &800086875
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800086869}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1029181910
 GameObject:
   m_ObjectHideFlags: 0
