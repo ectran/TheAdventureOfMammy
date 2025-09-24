@@ -14,12 +14,13 @@ public class PlayerHealth : MonoBehaviour
     private float normalSpeed;
     private float healSlowSpeed = 1f;
     private bool isHealingActive = false;
+   
     private float knockbackForce = 3f;
-
     private bool isInvincible = false;
     private float invincibilityDuration = 1.5f;
 
     private Animator anim;
+    public Animator emmyAnimator;
 
     private int maxHoneyFlasks = 3;
     private int currentHoneyFlasks = 3;
@@ -31,49 +32,47 @@ public class PlayerHealth : MonoBehaviour
     public Image refillBarFill; 
     public Image[] honeyIcons;
     private Coroutine healingCoroutine;
-
-    public Animator emmyAnimator;
     private bool lastSweetnessBuffState = false;
 
     public Image healthBarChip;
+    public Image sweetnessBarChip;
     private float chipSpeed = 0.5f;
-
     private float chipDelayTimerS = 0f;
     private float chipDelayDurationS = 0.5f;
-
     private float chipDelayTimerH = 0f;
     private float chipDelayDurationH = 0.5f;
-
-    public Image sweetnessBarChip;
 
     public DialogueManager dialogueManager;
 
     string[] deathLines = {
-        "M- Mammy? Please wake up… ;^;",
-        "I’m sorry…",
-        "Nooooo!",
-        "Don’t leave me here… ):",
-        "Everything feels so cold without you…",
-        "Stay with me please…"
+        //"M- Mammy? Please wake up… ;^;",
+        //"I’m sorry…",
+        //"Nooooo!",
+        //"Don’t leave me here… ):",
+        //"Everything feels so cold without you…",
+        //"Stay with me please…"
+        "died!"
 
     };
 
     string[] buffLines = {
-        "You're glowing, honey!",
-        "Don't let it get to your head, love!",
-        "Go get 'em! <3",
-        "You're so full of sweetness!",
-        "That buff looks good on you! C;",
-        "Go Mammy go! go Mammy go!! Go Mammy goooo!!!"
+        //"You're glowing, honey!",
+        //"Don't let it get to your head, love!",
+        //"Go get 'em! <3",
+        //"You're so full of sweetness!",
+        //"That buff looks good on you! C;",
+        //"Go Mammy go! Go Mammy go!! Go Mammy goooo!!!"
+        "giving buff!"
     };
 
     string[] refillLines = {
-        "Let me help you out there, honey!",
-        "You're welcome! Mwah!!",
-        "All set, Mammy! Don't waste it!",
-        "I'm right here! Forever and always hehe.",
-        "I got you, don't worry!",
-        "More honey for my love!"
+        //"Let me help you out there, honey!",
+        //"You're welcome! Mwah!!",
+        //"All set, Mammy! Don't waste it!",
+        //"I'm right here! Forever and always, hehe.",
+        //"I got you, don't worry!",
+        //"More honey for my love!"
+        "refilling potions!"
     };
 
 
@@ -84,7 +83,9 @@ public class PlayerHealth : MonoBehaviour
         anim = GetComponent<Animator>();
 
         if (playerMovement != null)
+        {
             normalSpeed = playerMovement.moveSpeed;
+        }
 
         UpdateHoneyUI();
         
@@ -97,8 +98,8 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
+        // updates health bar and chip effect
         float targetFill = Mathf.Clamp(health / maxHealth, 0, 1);
-
         healthBar.fillAmount = targetFill;
 
         if (Input.GetKeyDown(KeyCode.Q))
@@ -127,6 +128,7 @@ public class PlayerHealth : MonoBehaviour
             chipDelayTimerH = 0f;
         }
 
+        // updates sweetness refill bar chip
         float refillNormalized = refillProgress / refillThreshold;
 
         if (sweetnessBarChip != null)
@@ -149,6 +151,7 @@ public class PlayerHealth : MonoBehaviour
             }
         }
 
+        // sweetness buff state
         bool isSweetnessBuffActive = IsSweetnessBuffActive();
         if (isSweetnessBuffActive != lastSweetnessBuffState)
         {
@@ -179,7 +182,7 @@ public class PlayerHealth : MonoBehaviour
 
         health -= damageAmount;
 
-        // Get knockback direction
+        // applys player knockback
         Vector2 direction = (transform.position - damageSource.position).normalized;
         Vector2 knockbackDir = new Vector2(direction.x, 1f).normalized;
 
@@ -192,7 +195,7 @@ public class PlayerHealth : MonoBehaviour
 
         StartCoroutine(InvincibilityCoroutine());
 
-        // Cancel player's attack if they're hit
+        // cancels players attack if hit mid attack
         PlayerAttack attackScript = GetComponent<PlayerAttack>();
         if (attackScript != null && attackScript.isAttacking)
         {
@@ -204,6 +207,7 @@ public class PlayerHealth : MonoBehaviour
             anim.SetTrigger("hurt");
         }
 
+        // player death
         if (health <= 0f && anim != null)
         {
             string chosenDeathLine = deathLines[Random.Range(0, deathLines.Length)];
@@ -215,7 +219,6 @@ public class PlayerHealth : MonoBehaviour
                 playerMovement.enabled = false;
             }
 
-            // Stop physics if needed
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             GetComponent<Rigidbody2D>().isKinematic = true;
             GetComponent<Collider2D>().enabled = false;
@@ -235,12 +238,16 @@ public class PlayerHealth : MonoBehaviour
         isHealingActive = false;
 
         if (healingCoroutine != null)
+        {
             StopCoroutine(healingCoroutine);
+        }
 
         anim.SetBool("heal", false);
 
         if (playerMovement != null)
+        {
             playerMovement.moveSpeed = normalSpeed;
+        }
 
     }
 
@@ -271,8 +278,10 @@ public class PlayerHealth : MonoBehaviour
 
         while (timer < healDuration)
         {
-            if (!isHealingActive) 
+            if (!isHealingActive)
+            {
                 yield break;
+            }
 
             timer += Time.deltaTime;
             yield return null;
@@ -337,7 +346,9 @@ public class PlayerHealth : MonoBehaviour
         refillProgress = Mathf.Min(refillProgress, refillThreshold);
 
         if (refillBarFill != null)
+        {
             refillBarFill.fillAmount = refillProgress / refillThreshold;
+        }
 
         TryRefillFromSweetness();
     }
@@ -364,12 +375,10 @@ public class PlayerHealth : MonoBehaviour
     {
         isInvincible = true;
 
-        // Turn off collision between Player and Enemy layers
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
 
         yield return new WaitForSeconds(invincibilityDuration);
 
-        // Re-enable collision
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
 
         isInvincible = false;

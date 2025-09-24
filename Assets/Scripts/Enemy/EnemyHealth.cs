@@ -6,14 +6,14 @@ public class EnemyHealth : MonoBehaviour
 {
     public float health;
     public float currentHealth;
+    public float damage;
+
     private Animator anim;
-    private bool isDead = false;
     private Rigidbody2D rb;
     private Collider2D col;
 
-    public float damage;
+    private bool isDead = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -22,7 +22,6 @@ public class EnemyHealth : MonoBehaviour
         col = GetComponent<Collider2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (health < currentHealth)
@@ -30,7 +29,8 @@ public class EnemyHealth : MonoBehaviour
             currentHealth = health;
             anim.SetTrigger("attacked");
         }
-
+        
+        // enemy death
         if (health <= 0 && !isDead)
         {
             isDead = true;
@@ -50,11 +50,11 @@ public class EnemyHealth : MonoBehaviour
         Destroy(gameObject);
     }
 
+    // deals damage to player on collision
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            // Deal damage
             PlayerHealth playerHealth = other.gameObject.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {

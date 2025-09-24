@@ -24,7 +24,6 @@ public class PlayerMovement : MonoBehaviour
     private float knockbackDuration = 0.3f;
     private Vector2 knockbackVelocity;
 
-
     private PlayerStamina playerStamina;
     private float staminaCostPerRoll = 30f;
 
@@ -108,11 +107,12 @@ public class PlayerMovement : MonoBehaviour
         anim.SetBool("run", horizontalInput != 0 && !isRolling);
         anim.SetBool("grounded", grounded);
         
+        // short hops if tapped
         if (isJumping && !Input.GetKey(KeyCode.Space) && body.velocity.y > 0f)
-{
-        body.velocity = new Vector2(body.velocity.x, body.velocity.y * jumpCutMultiplier);
-        isJumping = false;
-    }
+        {
+            body.velocity = new Vector2(body.velocity.x, body.velocity.y * jumpCutMultiplier);
+            isJumping = false;
+        }
     }
 
     private IEnumerator Roll()

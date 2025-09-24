@@ -8,7 +8,9 @@ public class NPCInteract : MonoBehaviour
     private void Start()
     {
         if (promptUI != null)
+        {
             promptUI.SetActive(false);
+        }
     }
 
     private void Update()
@@ -18,7 +20,7 @@ public class NPCInteract : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 Debug.Log("Talk initiated!");
-                // Trigger dialogue logic here
+                // dialouge tree branch logic here
             }
         }
     }
@@ -30,7 +32,9 @@ public class NPCInteract : MonoBehaviour
             Debug.Log("Player entered trigger");
             playerInRange = true;
             if (promptUI != null)
+            {
                 promptUI.SetActive(true);
+            }
         }
     }
 
@@ -41,7 +45,9 @@ public class NPCInteract : MonoBehaviour
             Debug.Log("Player exited trigger");
             playerInRange = false;
             if (promptUI != null)
+            {
                 promptUI.SetActive(false);
+            }
         }
     }
 }

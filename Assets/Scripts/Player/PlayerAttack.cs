@@ -29,7 +29,6 @@ public class PlayerAttack : MonoBehaviour
     private PlayerHealth playerHealth;
 
 
-
     void Start()
     {
         attackCollider = attackPoint.GetComponent<PolygonCollider2D>();
@@ -47,6 +46,7 @@ public class PlayerAttack : MonoBehaviour
     {
         PlayerMovement playerMovement = GetComponent<PlayerMovement>();
 
+        // attack inputs
         if (Input.GetMouseButtonDown(0) && !isAttacking && !playerMovement.isRolling)
         {
             isAttacking = true;
@@ -55,12 +55,17 @@ public class PlayerAttack : MonoBehaviour
             isDownswing = Input.GetKey(KeyCode.S) && !playerMovement.grounded;
 
             if (isUpswing)
+            {
                 anim.SetBool("upswing", true);
+            }
             else if (isDownswing)
+            {
                 anim.SetBool("downswing", true);
+            }
             else
+            {
                 anim.SetBool("attack", true);
-
+            }
 
             attackTimer = attackDuration;
             startAttack();
@@ -100,6 +105,7 @@ public class PlayerAttack : MonoBehaviour
         rb.velocity = new Vector2(0, rb.velocity.y);
     }
 
+    // triggers different attack hitboxes
     public void attack()
     {
         attackCollider.enabled = true;
@@ -124,11 +130,12 @@ public class PlayerAttack : MonoBehaviour
         StartCoroutine(EnableDownswingHitbox(0.1f));
     }
 
+    // deals damage and applys knockback when colliding with enemy
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (((1 << other.gameObject.layer) & enemies) != 0)
         {
-            //Debug.Log("Hit enemy with polygon collider");
+            //Debug.Log("Hit enemy");
             EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
             {
@@ -148,7 +155,7 @@ public class PlayerAttack : MonoBehaviour
                 }
             }
 
-            // Knockback enemy
+            // enemy knockback
             EnemyAI enemyAI = other.GetComponent<EnemyAI>();
             if (enemyAI != null)
             {
@@ -156,8 +163,7 @@ public class PlayerAttack : MonoBehaviour
                 enemyAI.ApplyKnockback(direction * knockbackForceToEnemy);
             }
 
-
-            // Knockback player
+            // player knockback
             if (!isUpswing && !isDownswing)
             {
                 PlayerMovement playerMovement = GetComponent<PlayerMovement>();
@@ -170,7 +176,7 @@ public class PlayerAttack : MonoBehaviour
             }
             else if (isDownswing)
             {
-                // Vertical knockback (upwards) for downswing
+                // vertical knockback (upwards) for downswing attack
                 PlayerMovement playerMovement = GetComponent<PlayerMovement>();
                 if (playerMovement != null)
                 {
@@ -219,10 +225,6 @@ public class PlayerAttack : MonoBehaviour
         downswingCollider.enabled = false;
         StopAllCoroutines();
     }
-
-
-
-
 
 }
     

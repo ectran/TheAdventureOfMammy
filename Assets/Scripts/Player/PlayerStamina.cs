@@ -26,6 +26,7 @@ public class PlayerStamina : MonoBehaviour
 
     void Update()
     {
+        // stamina regeneration
         if (stamina < maxStamina)
         {
             if (!isDraining)
@@ -46,10 +47,11 @@ public class PlayerStamina : MonoBehaviour
             regenTimer = 0f;
         }
 
+        // updates UI bar
         float normalizedStamina = Mathf.Clamp(stamina / maxStamina, 0f, 1f);
-
         staminaBar.fillAmount = normalizedStamina;
 
+        // chip effect 
         if (staminaBarChip != null)
         {
             if (staminaBarChip.fillAmount > normalizedStamina)
@@ -71,18 +73,18 @@ public class PlayerStamina : MonoBehaviour
         }
     }
     
-
     public bool UseStamina(float amount)
     {
         if (stamina >= amount)
         {
-            stamina -= amount;
-            regenTimer = 0f;
+            stamina -= amount; 
+            regenTimer = 0f; // reset regen delay
             return true;
         }
         return false;
     }
 
+    // if stamina is being drained
     public void SetDraining(bool state)
     {
         isDraining = state;

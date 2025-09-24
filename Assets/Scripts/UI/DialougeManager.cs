@@ -17,9 +17,14 @@ public class DialogueManager : MonoBehaviour
     public void ShowDialogue(string message)
     {
         if (typingCoroutine != null)
+        {
             StopCoroutine(typingCoroutine);
+        }
+        
         if (hideCoroutine != null)
+        {
             StopCoroutine(hideCoroutine);
+        }
 
         dialogueBox.SetActive(true);
         dialogueText.text = "";
